@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
+import { API_URL } from '../config/api';
 import '../styles/Profile.css';
 
 const ProfilePage = () => {
@@ -28,7 +29,7 @@ const ProfilePage = () => {
     e.preventDefault();
     try {
       await axios.put(
-        `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/auth/profile`,
+        `${API_URL}/auth/profile`,
         { name: profile.name },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -47,7 +48,7 @@ const ProfilePage = () => {
     }
     try {
       await axios.put(
-        `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/auth/password`,
+        `${API_URL}/auth/password`,
         { currentPassword: password.current, newPassword: password.new },
         { headers: { Authorization: `Bearer ${token}` } }
       );

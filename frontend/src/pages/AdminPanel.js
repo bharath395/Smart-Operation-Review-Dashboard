@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { API_URL } from '../config/api';
 import '../App.css';
 
 const AdminPanel = () => {
@@ -13,10 +14,10 @@ const AdminPanel = () => {
     const fetchData = async () => {
       try {
         const [pendingResponse, allUsersResponse] = await Promise.all([
-          fetch('http://localhost:5000/api/auth/pending-users', {
+          fetch(`${API_URL}/auth/pending-users`, {
             headers: { 'Authorization': `Bearer ${token}` }
           }),
-          fetch('http://localhost:5000/api/auth/all-users', {
+          fetch(`${API_URL}/auth/all-users`, {
             headers: { 'Authorization': `Bearer ${token}` }
           })
         ]);
@@ -36,7 +37,7 @@ const AdminPanel = () => {
 
   const fetchPendingUsers = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/auth/pending-users', {
+      const response = await fetch(`${API_URL}/auth/pending-users`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await response.json();
@@ -48,7 +49,7 @@ const AdminPanel = () => {
 
   const fetchAllUsers = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/auth/all-users', {
+      const response = await fetch(`${API_URL}/auth/all-users`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await response.json();
@@ -61,7 +62,7 @@ const AdminPanel = () => {
   const handleApprove = async (userId) => {
     setLoading(true);
     try {
-      await fetch(`http://localhost:5000/api/auth/approve-user/${userId}`, {
+      await fetch(`${API_URL}/auth/approve-user/${userId}`, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -76,7 +77,7 @@ const AdminPanel = () => {
   const handleReject = async (userId) => {
     setLoading(true);
     try {
-      await fetch(`http://localhost:5000/api/auth/reject-user/${userId}`, {
+      await fetch(`${API_URL}/auth/reject-user/${userId}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -91,7 +92,7 @@ const AdminPanel = () => {
     if (window.confirm('Are you sure you want to delete this user?')) {
       setLoading(true);
       try {
-        await fetch(`http://localhost:5000/api/auth/delete-user/${userId}`, {
+        await fetch(`${API_URL}/auth/delete-user/${userId}`, {
           method: 'DELETE',
           headers: { 'Authorization': `Bearer ${token}` }
         });
