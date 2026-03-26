@@ -1,0 +1,53 @@
+﻿{
+  "info": {
+    "name": "SORD API Collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:4000/api" },
+    { "key": "token", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/auth/login",
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"admin@sord.local\",\n  \"password\": \"Test@1234\"\n}" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Production",
+      "item": [
+        { "name": "Get Production", "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/production?from=2026-01-01&to=2026-12-31&line=LINE_A&shift=DAY" } },
+        { "name": "Create Production", "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }], "url": "{{baseUrl}}/production", "body": { "mode": "raw", "raw": "{\n  \"date\": \"2026-02-24\",\n  \"shift\": \"DAY\",\n  \"line\": \"LINE_A\",\n  \"planned_units\": 1000,\n  \"actual_units\": 940,\n  \"good_units\": 920,\n  \"reject_units\": 20,\n  \"downtime_minutes\": 45,\n  \"ideal_cycle_time_sec\": 1.6\n}" } } },
+        { "name": "Update Production", "request": { "method": "PUT", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }], "url": "{{baseUrl}}/production/1", "body": { "mode": "raw", "raw": "{\n  \"date\": \"2026-02-24\",\n  \"shift\": \"NIGHT\",\n  \"line\": \"LINE_A\",\n  \"planned_units\": 980,\n  \"actual_units\": 930,\n  \"good_units\": 910,\n  \"reject_units\": 20,\n  \"downtime_minutes\": 50,\n  \"ideal_cycle_time_sec\": 1.6\n}" } } },
+        { "name": "Delete Production", "request": { "method": "DELETE", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/production/1" } }
+      ]
+    },
+    {
+      "name": "Issues",
+      "item": [
+        { "name": "Get Issues", "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/issues?status=Open&line=LINE_A&severity=High" } },
+        { "name": "Create Issue", "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }], "url": "{{baseUrl}}/issues", "body": { "mode": "raw", "raw": "{\n  \"line\": \"LINE_A\",\n  \"category\": \"Machine\",\n  \"severity\": \"High\",\n  \"status\": \"Open\",\n  \"description\": \"Unstable feeder motor\",\n  \"root_cause\": \"\",\n  \"corrective_action\": \"\",\n  \"assigned_to\": 2\n}" } } },
+        { "name": "Update Issue", "request": { "method": "PUT", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }], "url": "{{baseUrl}}/issues/1", "body": { "mode": "raw", "raw": "{\n  \"line\": \"LINE_A\",\n  \"category\": \"Machine\",\n  \"severity\": \"High\",\n  \"status\": \"In Progress\",\n  \"description\": \"Unstable feeder motor\",\n  \"root_cause\": \"Loose coupling\",\n  \"corrective_action\": \"Coupling replaced\",\n  \"assigned_to\": 2\n}" } } },
+        { "name": "Update Issue Status", "request": { "method": "PATCH", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }], "url": "{{baseUrl}}/issues/1/status", "body": { "mode": "raw", "raw": "{\n  \"status\": \"Resolved\"\n}" } } },
+        { "name": "Delete Issue", "request": { "method": "DELETE", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/issues/1" } }
+      ]
+    },
+    {
+      "name": "KPI",
+      "item": [
+        { "name": "KPI Summary", "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/kpi/summary?from=2026-01-01&to=2026-12-31&line=LINE_A" } },
+        { "name": "KPI OEE", "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/kpi/oee?from=2026-01-01&to=2026-12-31&line=LINE_A" } },
+        { "name": "KPI Top Issues", "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/kpi/top-issues?from=2026-01-01&to=2026-12-31&line=LINE_A" } }
+      ]
+    }
+  ]
+}
